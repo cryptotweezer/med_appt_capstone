@@ -103,15 +103,17 @@
     border:1px solid rgb(59, 58, 58);
 }
 
-.findiconimg{
+.findiconimg {
     width: 40px;
-    left: 0;
-    background-color: rgb(239, 234, 234);
     height: 40px;
+    background-color: rgb(239, 234, 234);
     border: 1px solid rgb(59, 58, 58);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: -99;
-
 }
+
 .search-doctor-input-results {
     position: absolute;
     top: 55%;
@@ -176,4 +178,12 @@
     object-fit: cover;
     object-position: center;
     border-radius: 5px;
+}
+
+.findIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
 }
