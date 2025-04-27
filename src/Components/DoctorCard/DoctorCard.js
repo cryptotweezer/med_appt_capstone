@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
 import './DoctorCard.css';
 import AppointmentForm from '../AppointmentForm/AppointmentForm';
+import { v4 as uuidv4 } from 'uuid';
 
 const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
   const [showForm, setShowForm] = useState(false);
+  const [appointments, setAppointments] = useState([]);
 
   const handleFormSubmit = (appointmentData) => {
-    console.log('Appointment booked:', appointmentData);
+    const newAppointment = {
+      id: uuidv4(),
+      ...appointmentData,
+    };
+    setAppointments([...appointments, newAppointment]);
     setShowForm(false);
+  };
+
+  const handleCancelAppointment = (appointmentId) => {
+    const updatedAppointments = appointments.filter((appt) => appt.id !== appointmentId);
+    setAppointments(updatedAppointments);
   };
 
   return (
@@ -18,6 +29,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
           </svg>
         </div>
+
         <div className="doctor-card-details">
           <div className="doctor-card-detail-name">{name}</div>
           <div className="doctor-card-detail-speciality">{speciality}</div>
@@ -25,25 +37,27 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
           <div className="doctor-card-detail-consultationfees">Ratings: {ratings}</div>
         </div>
 
-        {/* Si no se ha hecho clic aún, muestra el botón */}
-        {!showForm && (
-          <div>
-            <button className="book-appointment-btn" onClick={() => setShowForm(true)}>
-              <span style={{ display: "block", fontSize: "16px", fontWeight: "bold" }}>Book Appointment</span>
-              <span style={{ display: "block", fontSize: "12px" }}>No Booking Fee</span>
+        <div className="doctor-card-options-container">
+          {appointments.length > 0 ? (
+            <button className="book-appointment-btn cancel-appointment" onClick={() => handleCancelAppointment(appointments[0].id)}>
+              Cancel Appointment
             </button>
-          </div>
-        )}
-
-        {/* Si clickea, muestra el formulario */}
-        {showForm && (
-          <AppointmentForm
-            doctorName={name}
-            doctorSpeciality={speciality}
-            onSubmit={handleFormSubmit}
-          />
-        )}
+          ) : (
+            <button className="book-appointment-btn" onClick={() => setShowForm(true)}>
+              Book Appointment
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Formulario ahora afuera, no tapa el botón */}
+      {showForm && (
+        <AppointmentForm
+          doctorName={name}
+          doctorSpeciality={speciality}
+          onSubmit={handleFormSubmit}
+        />
+      )}
     </div>
   );
 };

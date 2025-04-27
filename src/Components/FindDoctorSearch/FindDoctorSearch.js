@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './FindDoctorSearch.css';
-import DoctorCard from '../DoctorCard/DoctorCard';
 
 const initSpeciality = [
   'Dentist',
@@ -12,24 +11,17 @@ const initSpeciality = [
   'Ayurveda'
 ];
 
-// Lista de doctores de ejemplo
-const doctors = [
-  { name: 'Dr. John Smith', speciality: 'Dentist', experience: 10, ratings: '⭐⭐⭐⭐' },
-  { name: 'Dr. Sarah Brown', speciality: 'Gynecologist/obstetrician', experience: 8, ratings: '⭐⭐⭐' },
-  { name: 'Dr. Emily Davis', speciality: 'Dermatologist', experience: 5, ratings: '⭐⭐⭐⭐⭐' },
-  { name: 'Dr. Mark Wilson', speciality: 'Dentist', experience: 12, ratings: '⭐⭐⭐⭐' },
-];
-
-const FindDoctorSearch = () => {
+const FindDoctorSearch = ({ onDoctorSelect }) => {
   const [doctorResultHidden, setDoctorResultHidden] = useState(true);
   const [searchDoctor, setSearchDoctor] = useState('');
   const [specialities, setSpecialities] = useState(initSpeciality);
-  const [selectedSpeciality, setSelectedSpeciality] = useState('');
 
   const handleDoctorSelect = (speciality) => {
     setSearchDoctor(speciality);
     setDoctorResultHidden(true);
-    setSelectedSpeciality(speciality);
+    if (onDoctorSelect) {
+      onDoctorSelect(speciality);
+    }
   };
 
   return (
@@ -66,23 +58,6 @@ const FindDoctorSearch = () => {
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Mostrar DoctorCard cuando seleccionen una especialidad */}
-        <div style={{ marginTop: '20px' }}>
-          {selectedSpeciality && (
-            doctors
-              .filter((doc) => doc.speciality === selectedSpeciality)
-              .map((doc) => (
-                <DoctorCard
-                  key={doc.name}
-                  name={doc.name}
-                  speciality={doc.speciality}
-                  experience={doc.experience}
-                  ratings={doc.ratings}
-                />
-              ))
-          )}
         </div>
       </center>
     </div>
