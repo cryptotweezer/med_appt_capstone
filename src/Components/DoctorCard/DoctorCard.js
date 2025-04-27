@@ -37,6 +37,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
           <div className="doctor-card-detail-consultationfees">Ratings: {ratings}</div>
         </div>
 
+        {/* 🔥 Aquí TODO va adentro de la misma caja 🔥 */}
         <div className="doctor-card-options-container">
           {appointments.length > 0 ? (
             <button className="book-appointment-btn cancel-appointment" onClick={() => handleCancelAppointment(appointments[0].id)}>
@@ -47,17 +48,18 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
               Book Appointment
             </button>
           )}
-        </div>
-      </div>
 
-      {/* Formulario ahora afuera, no tapa el botón */}
-      {showForm && (
-        <AppointmentForm
-          doctorName={name}
-          doctorSpeciality={speciality}
-          onSubmit={handleFormSubmit}
-        />
-      )}
+          {/* Mover el form adentro */}
+          {showForm && (
+            <AppointmentForm
+              doctorName={name}
+              doctorSpeciality={speciality}
+              onSubmit={handleFormSubmit}
+            />
+          )}
+        </div>
+
+      </div>
     </div>
   );
 };
