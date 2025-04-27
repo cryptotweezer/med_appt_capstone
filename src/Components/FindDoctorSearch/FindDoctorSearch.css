@@ -111,8 +111,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: -99;
+    margin-left: -1px; /* Elimina el pequeño espacio entre input y lupa */
+    z-index: 1;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+
+.findiconimg img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
 
 .search-doctor-input-results {
     position: absolute;
@@ -178,12 +188,4 @@
     object-fit: cover;
     object-position: center;
     border-radius: 5px;
-}
-
-.findIcon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  display: block;
-  margin: auto;
 }

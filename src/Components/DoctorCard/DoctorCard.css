@@ -61,15 +61,18 @@
     
   }
   
-  .book-appoinment-btn {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+  .book-appointment-btn {
+  width: 100%; /* Hace que todo el botón sea clickeable */
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
   
   .book-appoinment-btn div:nth-child(2) {
     font-size: 12px;

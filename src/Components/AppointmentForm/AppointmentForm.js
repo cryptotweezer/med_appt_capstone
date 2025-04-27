@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [date, setDate] = useState('');
-  const [selectedSlot, setSelectedSlot] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState('');
+  const [appointmentTime, setAppointmentTime] = useState('');
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, phoneNumber, date, selectedSlot });
+    onSubmit({ name, phoneNumber, appointmentDate, appointmentTime });
     setName('');
     setPhoneNumber('');
-    setDate('');
-    setSelectedSlot('');
+    setAppointmentDate('');
+    setAppointmentTime('');
   };
 
   return (
@@ -27,7 +27,6 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
           required
         />
       </div>
-
       <div className="form-group">
         <label htmlFor="phoneNumber">Phone Number:</label>
         <input
@@ -38,26 +37,22 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
           required
         />
       </div>
-
-      {/* Agregamos campo de fecha */}
       <div className="form-group">
-        <label htmlFor="date">Date of Appointment:</label>
+        <label htmlFor="appointmentDate">Date of Appointment:</label>
         <input
           type="date"
-          id="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+          id="appointmentDate"
+          value={appointmentDate}
+          onChange={(e) => setAppointmentDate(e.target.value)}
           required
         />
       </div>
-
-      {/* Agregamos campo de time slot */}
       <div className="form-group">
-        <label htmlFor="slot">Book Time Slot:</label>
+        <label htmlFor="appointmentTime">Book Time Slot:</label>
         <select
-          id="slot"
-          value={selectedSlot}
-          onChange={(e) => setSelectedSlot(e.target.value)}
+          id="appointmentTime"
+          value={appointmentTime}
+          onChange={(e) => setAppointmentTime(e.target.value)}
           required
         >
           <option value="">Select a time slot</option>
@@ -66,10 +61,10 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
           <option value="11:00 AM">11:00 AM</option>
           <option value="02:00 PM">02:00 PM</option>
           <option value="03:00 PM">03:00 PM</option>
+          <option value="04:00 PM">04:00 PM</option>
         </select>
       </div>
-
-      <button type="submit" className="submit-btn">Book Now</button>
+      <button type="submit">Book Now</button>
     </form>
   );
 };
