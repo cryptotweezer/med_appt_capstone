@@ -34,7 +34,7 @@ const Navbar = () => {
           <Link to="/">Home</Link>
         </li>
         <li className="link">
-          <Link to="/appointments">Appointments</Link>
+          <Link to="/booking-consultation">Appointments</Link> {/* Cambiado */}
         </li>
 
         {!userEmail ? (

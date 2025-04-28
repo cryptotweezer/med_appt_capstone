@@ -1,0 +1,43 @@
+body {
+  padding-top: 90px;
+}
+
+/* Styles for Notification Component */
+.notification-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* 👉 Mostrar tarjetas en columna */
+  align-items: center; /* 👉 Centrar las tarjetas */
+  gap: 20px; /* 👉 Separación entre tarjetas */
+  margin-top: 30px; /* 👉 Suficiente espacio debajo del Navbar */
+  padding: 0 20px; /* 👉 Un poco de padding lateral para que no toquen los bordes */
+  box-sizing: border-box;
+}
+
+.appointment-card {
+  background-color: #2190ff;
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.appointment-card__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.appointment-card__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.appointment-card__message {
+  font-size: 16px;
+  margin-bottom: 10px;
+}

@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DoctorCard.css';
 import AppointmentForm from '../AppointmentForm/AppointmentForm';
 import { v4 as uuidv4 } from 'uuid';
 
-const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
+const DoctorCard = ({ name, speciality, experience, ratings }) => {
   const [showForm, setShowForm] = useState(false);
   const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    const storedAppointments = JSON.parse(localStorage.getItem(name));
+    if (storedAppointments) {
+      setAppointments([storedAppointments]);
+    }
+  }, [name]);
 
   const handleFormSubmit = (appointmentData) => {
     const newAppointment = {
       id: uuidv4(),
       ...appointmentData,
     };
-    setAppointments([...appointments, newAppointment]);
+    setAppointments([newAppointment]);
     setShowForm(false);
+
+    const doctorData = {
+      name: name,
+      speciality: speciality,
+    };
+
+    const appointmentDetails = {
+      phoneNumber: appointmentData.phoneNumber,
+      date: appointmentData.appointmentDate,
+      time: appointmentData.appointmentTime,
+    };
+
+    localStorage.setItem('doctorData', JSON.stringify(doctorData));
+    localStorage.setItem(name, JSON.stringify(appointmentDetails));
   };
 
-  const handleCancelAppointment = (appointmentId) => {
-    const updatedAppointments = appointments.filter((appt) => appt.id !== appointmentId);
-    setAppointments(updatedAppointments);
+  const handleCancelAppointment = () => {
+    setAppointments([]);
+    localStorage.removeItem('doctorData');
+    localStorage.removeItem(name);
   };
 
   return (
@@ -37,19 +59,14 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
           <div className="doctor-card-detail-consultationfees">Ratings: {ratings}</div>
         </div>
 
-        {/* 🔥 Aquí TODO va adentro de la misma caja 🔥 */}
         <div className="doctor-card-options-container">
-          {appointments.length > 0 ? (
-            <button className="book-appointment-btn cancel-appointment" onClick={() => handleCancelAppointment(appointments[0].id)}>
-              Cancel Appointment
-            </button>
-          ) : (
-            <button className="book-appointment-btn" onClick={() => setShowForm(true)}>
-              Book Appointment
-            </button>
-          )}
+          <button
+            className={`book-appointment-btn ${appointments.length > 0 ? 'cancel-appointment' : ''}`}
+            onClick={appointments.length > 0 ? handleCancelAppointment : () => setShowForm(true)}
+          >
+            {appointments.length > 0 ? 'Cancel Appointment' : 'Book Appointment'}
+          </button>
 
-          {/* Mover el form adentro */}
           {showForm && (
             <AppointmentForm
               doctorName={name}
@@ -58,7 +75,6 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
             />
           )}
         </div>
-
       </div>
     </div>
   );

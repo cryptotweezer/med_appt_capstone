@@ -14,7 +14,6 @@ const initSpeciality = [
 const FindDoctorSearch = ({ onDoctorSelect }) => {
   const [doctorResultHidden, setDoctorResultHidden] = useState(true);
   const [searchDoctor, setSearchDoctor] = useState('');
-  const [specialities, setSpecialities] = useState(initSpeciality);
 
   const handleDoctorSelect = (speciality) => {
     setSearchDoctor(speciality);
@@ -26,8 +25,8 @@ const FindDoctorSearch = ({ onDoctorSelect }) => {
 
   return (
     <div className="finddoctor">
-      <h1 style={{ textAlign: 'center' }}>Find a doctor and Consult instantly</h1> {/* ✅ Center con CSS */}
-      <div className="home-search-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <h1 className="finddoctor-title">Find a doctor and Consult instantly</h1>
+      <div className="home-search-container">
         <div className="doctor-search-box">
           <input
             type="text"
@@ -39,23 +38,25 @@ const FindDoctorSearch = ({ onDoctorSelect }) => {
             onChange={(e) => setSearchDoctor(e.target.value)}
           />
           <div className="findiconimg">
-            <img className="findIcon" src={process.env.PUBLIC_URL + '/images/search.svg'} alt="" />
+            <img className="findIcon" src={process.env.PUBLIC_URL + '/images/search.svg'} alt="search" />
           </div>
-          <div className="search-doctor-input-results" hidden={doctorResultHidden}>
-            {specialities.map((speciality) => (
-              <div
-                className="search-doctor-result-item"
-                key={speciality}
-                onMouseDown={() => handleDoctorSelect(speciality)}
-              >
-                <span>
-                  <img src={process.env.PUBLIC_URL + '/images/search.svg'} alt="" style={{ height: '10px', width: '10px' }} width="12" />
-                </span>
-                <span>{speciality}</span>
-                <span>SPECIALITY</span>
-              </div>
-            ))}
-          </div>
+          {!doctorResultHidden && (
+            <div className="search-doctor-input-results">
+              {initSpeciality.map((speciality) => (
+                <div
+                  className="search-doctor-result-item"
+                  key={speciality}
+                  onMouseDown={() => handleDoctorSelect(speciality)}
+                >
+                  <span>
+                    <img src={process.env.PUBLIC_URL + '/images/search.svg'} alt="" style={{ height: '10px', width: '10px' }} />
+                  </span>
+                  <span>{speciality}</span>
+                  <span>SPECIALITY</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

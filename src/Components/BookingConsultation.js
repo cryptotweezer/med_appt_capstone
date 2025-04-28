@@ -16,6 +16,8 @@ const BookingConsultation = () => {
     setSelectedSpeciality(speciality);
   };
 
+  const filteredDoctors = doctors.filter(doc => doc.speciality === selectedSpeciality); // Mejora: filtrar una sola vez
+
   return (
     <div className="searchpage-container">
       <FindDoctorSearch onDoctorSelect={handleDoctorSelect} />
@@ -23,23 +25,21 @@ const BookingConsultation = () => {
       {selectedSpeciality && (
         <>
           <h2 style={{ textAlign: "center" }}>
-            {doctors.filter(doc => doc.speciality === selectedSpeciality).length} doctors are available
+            {filteredDoctors.length} doctors are available
           </h2>
           <h3 style={{ textAlign: "center" }}>Book appointments with minimum wait-time & verified doctor details</h3>
 
           <div className="search-results-container">
-            {doctors.filter(doc => doc.speciality === selectedSpeciality).length > 0 ? (
-              doctors
-                .filter(doc => doc.speciality === selectedSpeciality)
-                .map((doc) => (
-                  <DoctorCard
-                    key={doc.name}
-                    name={doc.name}
-                    speciality={doc.speciality}
-                    experience={doc.experience}
-                    ratings={doc.ratings}
-                  />
-                ))
+            {filteredDoctors.length > 0 ? (
+              filteredDoctors.map((doc) => (
+                <DoctorCard
+                  key={doc.name}
+                  name={doc.name}
+                  speciality={doc.speciality}
+                  experience={doc.experience}
+                  ratings={doc.ratings}
+                />
+              ))
             ) : (
               <p>No doctors found.</p>
             )}
