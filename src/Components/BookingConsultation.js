@@ -24,15 +24,21 @@ const BookingConsultation = () => {
     const keys = Object.keys(localStorage);
 
     keys.forEach(key => {
-      if (key !== 'doctorData' && key !== 'auth-token' && key !== 'email') {
+      if (
+        key !== 'doctorData' &&
+        key !== 'auth-token' &&
+        key !== 'email' &&
+        !key.startsWith('review_')
+      ) {
         const appointmentData = JSON.parse(localStorage.getItem(key));
-        if (appointmentData) {
+        if (appointmentData?.date && appointmentData?.time) {
           allAppointments.push({ doctorName: key, appointmentData });
         }
       }
     });
 
     setAppointments(allAppointments);
+
   }, []);
 
   const handleCancelAppointment = (doctorName) => {
@@ -47,7 +53,7 @@ const BookingConsultation = () => {
   const filteredDoctors = doctors.filter(doc => doc.speciality === selectedSpeciality);
 
   return (
-    <div className="searchpage-container">
+    <div className="searchpage-container" style={{ marginTop: '100px' }}>
       <FindDoctorSearch onDoctorSelect={handleDoctorSelect} />
 
       {selectedSpeciality && (
@@ -90,11 +96,12 @@ const BookingConsultation = () => {
               }}>
                 <h3 style={{ textAlign: 'center' }}>Appointment Details</h3>
                 <p><strong>Doctor:</strong> {item.doctorName}</p>
-                <p><strong>Speciality:</strong> {JSON.parse(localStorage.getItem('doctorData'))?.speciality || ''}</p>
+                <p><strong>Speciality:</strong> {item.appointmentData.speciality || 'Unknown'}</p>
                 <p><strong>Name:</strong> {username}</p>
                 <p><strong>Phone Number:</strong> {item.appointmentData.phoneNumber}</p>
                 <p><strong>Date of Appointment:</strong> {item.appointmentData.date}</p>
                 <p><strong>Time Slot:</strong> {item.appointmentData.time}</p>
+
 
                 <button
                   onClick={() => handleCancelAppointment(item.doctorName)}

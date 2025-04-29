@@ -6,6 +6,8 @@ import SignUp from './Components/Sign_Up/Sign_Up';
 import Login from './Components/Login/Login';
 import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import BookingConsultation from './Components/BookingConsultation'; 
+import ReviewForm from './Components/ReviewForm/ReviewForm';
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/find-doctor" element={<FindDoctorSearch />} />
             <Route path="/booking-consultation" element={<BookingConsultation />} />
+            <Route path="/review" element={<ReviewForm />} />
           </Routes>
         </Notification>
       </BrowserRouter>
