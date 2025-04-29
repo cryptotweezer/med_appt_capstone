@@ -12,13 +12,23 @@ const Sign_Up = () => {
   const [showerr, setShowerr] = useState([]);
   const navigate = useNavigate();
 
-  const { setUserName, setUserEmail } = useContext(UserContext); // ✅
+  const { setUserName, setUserEmail } = useContext(UserContext);
 
   const register = async (e) => {
     e.preventDefault();
 
+    const errors = [];
+
     if (phone.length !== 10 || !/^\d+$/.test(phone)) {
-      setShowerr(["Phone number must be exactly 10 digits."]);
+      errors.push("Phone number must be exactly 10 digits.");
+    }
+
+    if (password.length <= 6) {
+      errors.push("Password must be at least 9 characters long.");
+    }
+
+    if (errors.length > 0) {
+      setShowerr(errors);
       return;
     }
 
@@ -43,15 +53,14 @@ const Sign_Up = () => {
       sessionStorage.setItem("phone", phone);
       sessionStorage.setItem("email", email);
 
-      setUserName(name);       // ✅ actualizar el contexto
+      setUserName(name);
       setUserEmail(email);
 
       navigate("/");
       window.location.reload();
     } else {
       if (json.errors) {
-        const msgs = json.errors.map(error => error.msg);
-        setShowerr(msgs);
+        setShowerr(json.errors); // no hace falta map aquí
       } else {
         setShowerr([json.error]);
       }
@@ -86,7 +95,7 @@ const Sign_Up = () => {
             {showerr.length > 0 && (
               <div className="err" style={{ color: 'red' }}>
                 {showerr.map((msg, idx) => (
-                  <div key={idx}>{msg}</div>
+                  <div key={idx}>{typeof msg === 'string' ? msg : msg.msg}</div>
                 ))}
               </div>
             )}

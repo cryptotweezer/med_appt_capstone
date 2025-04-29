@@ -7,6 +7,7 @@ import { UserContext } from '../../UserContext';
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState('');
+  const [showerr, setShowerr] = useState([]);
   const navigate = useNavigate();
   const { setUserName, setUserEmail } = useContext(UserContext);
 
@@ -14,39 +15,51 @@ const Login = () => {
     if (sessionStorage.getItem("auth-token")) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
 
   const login = async (e) => {
     e.preventDefault();
+
+    const errors = [];
+
+    if (!email.trim()) {
+      errors.push("Email is required.");
+    }
+
+    if (!password.trim()) {
+      errors.push("Password is required.");
+    }
+
+    if (errors.length > 0) {
+      setShowerr(errors);
+      return;
+    }
+
     const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
+      body: JSON.stringify({ email, password }),
     });
 
     const json = await res.json();
+
     if (json.authtoken) {
       sessionStorage.setItem('auth-token', json.authtoken);
       sessionStorage.setItem('email', email);
       sessionStorage.setItem('name', json.userName);
 
-      setUserName(json.userName); // ✅ actualizar contexto
+      setUserName(json.userName);
       setUserEmail(email);
 
       navigate('/');
       window.location.reload();
     } else {
       if (json.errors) {
-        for (const error of json.errors) {
-          alert(error.msg);
-        }
+        setShowerr(json.errors);
       } else {
-        alert(json.error);
+        setShowerr([json.error]);
       }
     }
   };
@@ -93,6 +106,14 @@ const Login = () => {
                 placeholder="Enter your password"
               />
             </div>
+
+            {showerr.length > 0 && (
+              <div className="err" style={{ color: 'red' }}>
+                {showerr.map((msg, idx) => (
+                  <div key={idx}>{typeof msg === 'string' ? msg : msg.msg}</div>
+                ))}
+              </div>
+            )}
 
             <div className="btn-group">
               <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">Login</button>
