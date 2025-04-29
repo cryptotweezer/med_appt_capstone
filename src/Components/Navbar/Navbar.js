@@ -60,6 +60,9 @@ const Navbar = () => {
                 <Link to="/profile">Your Profile</Link>
               </li>
               <li>
+                <Link to="/reports">Your Reports</Link>
+              </li>
+              <li>
                 <Link to="/review">Reviews</Link>
               </li>
               <li>

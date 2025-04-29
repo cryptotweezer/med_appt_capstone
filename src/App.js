@@ -8,6 +8,8 @@ import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import BookingConsultation from './Components/BookingConsultation'; 
 import ReviewForm from './Components/ReviewForm/ReviewForm';
 import ProfileCard from './Components/ProfileCard/ProfileCard'; // 👈 importado
+import ReportsLayout from './Components/ReportsLayout/ReportsLayout';
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
             <Route path="/booking-consultation" element={<BookingConsultation />} />
             <Route path="/review" element={<ReviewForm />} />
             <Route path="/profile" element={<ProfileCard />} /> {/* 👈 nueva ruta */}
+            <Route path="/reports" element={<ReportsLayout />} />
           </Routes>
         </Notification>
       </BrowserRouter>
