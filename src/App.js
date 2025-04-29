@@ -7,13 +7,13 @@ import Login from './Components/Login/Login';
 import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
 import BookingConsultation from './Components/BookingConsultation'; 
 import ReviewForm from './Components/ReviewForm/ReviewForm';
-
+import ProfileCard from './Components/ProfileCard/ProfileCard'; // 👈 importado
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Notification> {/* 👈 Notification ahora envuelve las rutas */}
+        <Notification>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<SignUp />} />
@@ -21,6 +21,7 @@ function App() {
             <Route path="/find-doctor" element={<FindDoctorSearch />} />
             <Route path="/booking-consultation" element={<BookingConsultation />} />
             <Route path="/review" element={<ReviewForm />} />
+            <Route path="/profile" element={<ProfileCard />} /> {/* 👈 nueva ruta */}
           </Routes>
         </Notification>
       </BrowserRouter>

@@ -1,5 +1,4 @@
 /** 
- * Following code has been commented with appropriate comments for your reference.
  * Styling for the Header Navbar
  */
 
@@ -15,50 +14,6 @@ nav {
     align-items: center;
     justify-content: space-between;
     background-color: #fff;
-}
-
-/* Styling for the dropdown menu */
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-    display: none;
-    min-width: 120px;
-    padding: 8px 0;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-}
-
-/* Styling for the user welcome message */
-.welcome-user {
-    position: relative;
-    cursor: pointer;
-}
-
-/* Display dropdown menu on hover */
-.welcome-user:hover .dropdown-menu {
-    display: block;
-}
-
-/* Styling for the items in the dropdown menu */
-.dropdown-menu li {
-    display: block;
-    width: 150px;
-    padding:5px;
-}
-
-/* Styling for links in the dropdown menu */
-.dropdown-menu li a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-/* Hover effect for links in the dropdown menu */
-.dropdown-menu li a:hover {
-    color: #2190ff;
 }
 
 /* Styling for the logo in the navbar */
@@ -103,6 +58,64 @@ nav {
     color: #3685fb;
 }
 
+/* Dropdown styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0 1rem;
+    display: inline-block;
+    color: #0d213f;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 150px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    margin-bottom: 5px;
+}
+
+.dropdown-menu li:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+    width: 100%;
+    display: block;
+    padding: 6px 12px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #0d213f;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+    background-color: #f0f0f0;
+    color: #2190ff;
+}
+
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
     .nav__logo {
@@ -134,7 +147,7 @@ nav {
         border-radius: 0.5rem;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         z-index: 999;
-        animation: slideDown 0.5s ease-in-out; /* Animation effect */
+        animation: slideDown 0.5s ease-in-out;
     }
 }
 
@@ -159,8 +172,8 @@ nav {
 }
 
 .btn1:hover {
-    background-color: #3685fb; /* Hover effect */
-    color: white; /* Hover effect */
+    background-color: #3685fb;
+    color: white;
 }
 
 .btn2 {
@@ -168,15 +181,14 @@ nav {
     background-color: white;
     color: black;
     border-radius: 50px;
-    height:30px;
-    display:flex; /* Align items and justify content */
-    align-items:center; /* Align items and justify content */
-    justify-content:center; /* Align items and justify content */
-    margin-top:3px; /* Margin from top */
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
 }
 
 .btn2:hover {
-    background-color:#3685fb; /* Hover effect */
-    color:white; /* Hover effect */
+    background-color: #3685fb;
+    color: white;
 }
-  

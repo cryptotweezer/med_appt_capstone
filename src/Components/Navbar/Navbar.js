@@ -51,17 +51,22 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          <>
-            <li className="link">
-              <Link to="/review">Reviews</Link>
-            </li>
-            <li className="link" style={{ fontWeight: "bold", marginRight: "10px" }}>
-              {userEmail.split('@')[0]}
-            </li>
-            <li className="link">
-              <button className="btn1" onClick={handleLogout}>Logout</button>
-            </li>
-          </>
+          <li className="link dropdown">
+            <span className="dropdown-toggle">
+              {userEmail.split('@')[0]} ▼
+            </span>
+            <ul className="dropdown-menu">
+              <li>
+                <Link to="/profile">Your Profile</Link>
+              </li>
+              <li>
+                <Link to="/review">Reviews</Link>
+              </li>
+              <li>
+                <button className="btn1" onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
+          </li>
         )}
       </ul>
     </nav>
