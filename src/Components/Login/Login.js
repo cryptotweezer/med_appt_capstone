@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
+import { UserContext } from '../../UserContext';
 
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const { setUserName, setUserEmail } = useContext(UserContext);
 
   useEffect(() => {
     if (sessionStorage.getItem("auth-token")) {
@@ -31,6 +33,11 @@ const Login = () => {
     if (json.authtoken) {
       sessionStorage.setItem('auth-token', json.authtoken);
       sessionStorage.setItem('email', email);
+      sessionStorage.setItem('name', json.userName);
+
+      setUserName(json.userName); // ✅ actualizar contexto
+      setUserEmail(email);
+
       navigate('/');
       window.location.reload();
     } else {

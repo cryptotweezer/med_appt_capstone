@@ -1,78 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './ReviewForm.css';
+import { UserContext } from '../../UserContext';
 
 const ReviewForm = () => {
+  const { userName } = useContext(UserContext); // ✅ obtener el nombre del contexto
   const [appointments, setAppointments] = useState([]);
   const [showFormDoctor, setShowFormDoctor] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
     review: '',
     rating: 0,
   });
 
   useEffect(() => {
-  const name = sessionStorage.getItem('name') || '';
-  const doctorData = JSON.parse(localStorage.getItem('doctorData'));
-  setFormData((prev) => ({ ...prev, name }));
+    const doctorData = JSON.parse(localStorage.getItem('doctorData'));
 
-  const bookedAppointments = [];
+    const bookedAppointments = [];
 
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
 
-    // Excluir reviews y otras claves que no son citas
-    if (
-      key === 'doctorData' ||
-      key.startsWith('review_') ||
-      key.startsWith('config') ||
-      key.startsWith('auth') ||
-      key === 'email'
-    ) {
-      continue;
+      if (
+        key === 'doctorData' ||
+        key.startsWith('review_') ||
+        key.startsWith('config') ||
+        key.startsWith('auth') ||
+        key === 'email'
+      ) {
+        continue;
+      }
+
+      const appt = JSON.parse(localStorage.getItem(key));
+      if (appt?.date && appt?.time) {
+        const doctorSpeciality =
+          appt.speciality || (doctorData?.name === key ? doctorData.speciality : 'Unknown');
+
+        const reviewKey = `review_${key}`;
+        const savedReview = localStorage.getItem(reviewKey);
+
+        bookedAppointments.push({
+          doctorName: key,
+          speciality: doctorSpeciality,
+          review: savedReview ? JSON.parse(savedReview) : null,
+        });
+      }
     }
 
-    const appt = JSON.parse(localStorage.getItem(key));
-
-    if (appt?.date && appt?.time) {
-      // Usar doctorData como respaldo si no hay speciality en la cita
-      const doctorSpeciality =
-        appt.speciality || (doctorData?.name === key ? doctorData.speciality : 'Unknown');
-
-      const reviewKey = `review_${key}`;
-      const savedReview = localStorage.getItem(reviewKey);
-
-      bookedAppointments.push({
-        doctorName: key,
-        speciality: doctorSpeciality,
-        review: savedReview ? JSON.parse(savedReview) : null,
-      });
-    }
-  }
-
-  setAppointments(bookedAppointments);
-}, []);
-
+    setAppointments(bookedAppointments);
+  }, []);
 
   const handleClickHere = (doctorName) => {
     setShowFormDoctor(doctorName);
-    const name = sessionStorage.getItem("name") || "";
-    setFormData({ name, review: '', rating: 0 });
+    setFormData({ review: '', rating: 0 });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, review, rating } = formData;
-    if (!name || !review || rating === 0) {
+    const { review, rating } = formData;
+    if (!userName || !review || rating === 0) {
       alert("Please fill all fields and select a rating.");
       return;
     }
 
-    const reviewData = { name, review, rating };
+    const reviewData = { name: userName, review, rating };
     const key = `review_${showFormDoctor}`;
     localStorage.setItem(key, JSON.stringify(reviewData));
     setShowFormDoctor(null);
     alert("Review submitted successfully!");
-    window.location.reload(); // refrescar para cargar review en tabla
+    window.location.reload();
   };
 
   return (
@@ -127,12 +121,7 @@ const ReviewForm = () => {
             <h3>Give Your Review</h3>
             <div>
               <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
+              <input type="text" value={userName || ''} readOnly />
             </div>
             <div>
               <label>Review:</label>

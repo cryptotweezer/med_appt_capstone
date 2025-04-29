@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Sign_Up.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config';
+import { UserContext } from '../../UserContext';
 
 const Sign_Up = () => {
   const [name, setName] = useState('');
@@ -11,10 +12,11 @@ const Sign_Up = () => {
   const [showerr, setShowerr] = useState([]);
   const navigate = useNavigate();
 
+  const { setUserName, setUserEmail } = useContext(UserContext); // ✅
+
   const register = async (e) => {
     e.preventDefault();
 
-    // Validar que el teléfono tenga exactamente 10 dígitos
     if (phone.length !== 10 || !/^\d+$/.test(phone)) {
       setShowerr(["Phone number must be exactly 10 digits."]);
       return;
@@ -40,6 +42,10 @@ const Sign_Up = () => {
       sessionStorage.setItem("name", name);
       sessionStorage.setItem("phone", phone);
       sessionStorage.setItem("email", email);
+
+      setUserName(name);       // ✅ actualizar el contexto
+      setUserEmail(email);
+
       navigate("/");
       window.location.reload();
     } else {

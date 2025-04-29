@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './UserContext'; // 👉 Importar el provider
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <UserProvider> {/* 👉 Envolver App con el contexto */}
+      <App />
+    </UserProvider>
   </React.StrictMode>
 );
 

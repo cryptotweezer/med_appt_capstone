@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { API_URL } from "../../config";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../UserContext";
 import "./ProfileCard.css";
 
 const ProfileCard = () => {
@@ -9,6 +10,7 @@ const ProfileCard = () => {
   const [editMode, setEditMode] = useState(false);
 
   const navigate = useNavigate();
+  const { setUserName } = useContext(UserContext); // ✅ usar contexto
 
   useEffect(() => {
     const authtoken = sessionStorage.getItem("auth-token");
@@ -71,8 +73,12 @@ const ProfileCard = () => {
       });
 
       if (response.ok) {
-        sessionStorage.setItem("name", updatedDetails.name);
+        // ✅ Usar contexto para actualizar nombre global
+        setUserName(updatedDetails.name);
+
         sessionStorage.setItem("phone", updatedDetails.phone);
+        sessionStorage.setItem("name", updatedDetails.name); // opcional para persistencia
+
         setUserDetails(updatedDetails);
         setEditMode(false);
         alert("Profile Updated Successfully!");

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './DoctorCard.css';
 import AppointmentForm from '../AppointmentForm/AppointmentForm';
 import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from '../../UserContext'; // ✅ importar contexto
 
 const DoctorCard = ({ name, speciality, experience, ratings }) => {
+  const { userName } = useContext(UserContext); // ✅ usar contexto
   const [showForm, setShowForm] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
@@ -17,8 +19,10 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
   const handleFormSubmit = (appointmentData) => {
     const newAppointment = {
       id: uuidv4(),
+      name: appointmentData.name, // guardar nombre del usuario
       ...appointmentData,
     };
+
     setAppointments([newAppointment]);
     setShowForm(false);
 
@@ -28,9 +32,11 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
     };
 
     const appointmentDetails = {
+      name: appointmentData.name,
       phoneNumber: appointmentData.phoneNumber,
       date: appointmentData.appointmentDate,
       time: appointmentData.appointmentTime,
+      speciality: speciality,
     };
 
     localStorage.setItem('doctorData', JSON.stringify(doctorData));
@@ -66,6 +72,13 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
           >
             {appointments.length > 0 ? 'Cancel Appointment' : 'Book Appointment'}
           </button>
+
+          {/* ✅ Mostrar nombre actual desde contexto */}
+          {appointments.length > 0 && (
+            <p style={{ marginTop: '10px' }}>
+              Booked by: <strong>{userName}</strong>
+            </p>
+          )}
 
           {showForm && (
             <AppointmentForm

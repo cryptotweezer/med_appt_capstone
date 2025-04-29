@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import FindDoctorSearch from './FindDoctorSearch/FindDoctorSearch';
 import DoctorCard from './DoctorCard/DoctorCard';
+import { UserContext } from '../UserContext';
+
 
 const doctors = [
   { name: 'Dr. John Smith', speciality: 'Dentist', experience: 10, ratings: '⭐⭐⭐⭐' },
@@ -12,14 +14,9 @@ const doctors = [
 const BookingConsultation = () => {
   const [selectedSpeciality, setSelectedSpeciality] = useState('');
   const [appointments, setAppointments] = useState([]);
-  const [username, setUsername] = useState('');
+  const { userName } = useContext(UserContext); // ✅ obtener nombre desde contexto
 
   useEffect(() => {
-    const storedUsername = sessionStorage.getItem('email');
-    if (storedUsername) {
-      setUsername(storedUsername.split('@')[0]);
-    }
-
     const allAppointments = [];
     const keys = Object.keys(localStorage);
 
@@ -38,7 +35,6 @@ const BookingConsultation = () => {
     });
 
     setAppointments(allAppointments);
-
   }, []);
 
   const handleCancelAppointment = (doctorName) => {
@@ -97,11 +93,10 @@ const BookingConsultation = () => {
                 <h3 style={{ textAlign: 'center' }}>Appointment Details</h3>
                 <p><strong>Doctor:</strong> {item.doctorName}</p>
                 <p><strong>Speciality:</strong> {item.appointmentData.speciality || 'Unknown'}</p>
-                <p><strong>Name:</strong> {username}</p>
+                <p><strong>Name:</strong> {userName}</p> {/* ✅ nombre dinámico */}
                 <p><strong>Phone Number:</strong> {item.appointmentData.phoneNumber}</p>
                 <p><strong>Date of Appointment:</strong> {item.appointmentData.date}</p>
                 <p><strong>Time Slot:</strong> {item.appointmentData.time}</p>
-
 
                 <button
                   onClick={() => handleCancelAppointment(item.doctorName)}

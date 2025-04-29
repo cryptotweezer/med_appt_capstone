@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../UserContext';
 
 const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
-  const [name, setName] = useState('');
+  const { userName } = useContext(UserContext); // ✅ obtener nombre del contexto
   const [phoneNumber, setPhoneNumber] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [appointmentTime, setAppointmentTime] = useState('');
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, phoneNumber, appointmentDate, appointmentTime });
-    setName('');
+    onSubmit({ name: userName, phoneNumber, appointmentDate, appointmentTime });
     setPhoneNumber('');
     setAppointmentDate('');
     setAppointmentTime('');
@@ -22,9 +22,8 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
         <input
           type="text"
           id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          value={userName || ''}
+          readOnly // ✅ el campo ya no es editable
         />
       </div>
       <div className="form-group">

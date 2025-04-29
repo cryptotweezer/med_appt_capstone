@@ -1,20 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import { UserContext } from '../../UserContext';
 
 const Navbar = () => {
-  const [userEmail, setUserEmail] = useState('');
+  const { userName, userEmail, setUserEmail } = useContext(UserContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const email = sessionStorage.getItem('email');
-    if (email) {
-      setUserEmail(email);
-    }
-  }, []);
 
   const handleLogout = () => {
     sessionStorage.clear();
+    setUserEmail('');
     navigate('/');
     window.location.reload();
   };
@@ -53,7 +48,7 @@ const Navbar = () => {
         ) : (
           <li className="link dropdown">
             <span className="dropdown-toggle">
-              {userEmail.split('@')[0]} ▼
+              {userName || 'User'} ▼
             </span>
             <ul className="dropdown-menu">
               <li>
